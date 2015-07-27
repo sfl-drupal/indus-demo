@@ -7,7 +7,20 @@
 # - modifier le fichier .make du profil d'installation
 # - ./site-update
 
+# Stop on error
 set -e
+
+echo ' ___   ___   ___'
+echo '|___| |   | |   |'
+echo ' ___  |   | |___|'
+echo '|   | |   |  ___ '
+echo '|   | |___| |___|'
+echo '|   |  _________ '
+echo '|___| |_________|'
+echo ''
+echo '================='
+echo '  Fromages       '
+echo '================='
 
 # call default vars
 . `pwd`/default-vars
@@ -21,18 +34,6 @@ else
   echo "File $FILE does not exist, used default values."
 fi
 
-echo ' ___   ___   ___'
-echo '|___| |   | |   |'
-echo ' ___  |   | |___|'
-echo '|   | |   |  ___ '
-echo '|   | |___| |___|'
-echo '|   |  _________ '
-echo '|___| |_________|'
-echo ''
-echo '================='
-echo '  Tatooine       '
-echo '================='
-
 cd $DRUPAL_ROOT
 
 echo "\nThis command can be used to rebuild the installation profile in place. Be careful as it will wipe out contrib and custom modules.\n"
@@ -45,50 +46,34 @@ read SELECTION
 if [ $SELECTION = "1" ]; then
 
   echo "Building Tatooine install profile in release mode..."
-  drush make --no-gitinfofile $WORKSPACE/build/coruscant.make .
+  drush make --no-gitinfofile $WORKSPACE/build/$MAKEFILE.make .
 
 elif [ $SELECTION = "2" ]; then
 
   echo "Building Tatooine install profile in development mode (latest dev code with .git working-copy)"
-  drush make --working-copy --no-gitinfofile $WORKSPACE/build/coruscant.make .
+  drush make --working-copy --no-gitinfofile $WORKSPACE/build/$MAKEFILE.make .
 
 else
  echo "Invalid selection."
  exit 0
 fi
 
-# Get site environment
-DRUPAL_ENV=`drush vget environment --format=string`
-echo 'Environment to be deployed: '$DRUPAL_ENV
+# # Get site environment
+# DRUPAL_ENV=`drush vget environment --format=string`
+# echo 'Environment to be deployed: '$DRUPAL_ENV
 
-# Copy environment settings file from source repository to Drupal folder
-cp $WORKSPACE/deploy/env/settings.$DRUPAL_ENV.php $DRUPAL_ROOT/sites/default/settings.$DRUPAL_ENV.php
-echo "Update environment settings file settings.$DRUPAL_ENV.php"
+# # Copy environment settings file from source repository to Drupal folder
+# cp $WORKSPACE/deploy/env/settings.$DRUPAL_ENV.php $DRUPAL_ROOT/sites/default/settings.$DRUPAL_ENV.php
+# echo "Update environment settings file settings.$DRUPAL_ENV.php"
 
-# Generate Pattern Lab static site
-cd $DRUPAL_ROOT/profiles/$SITE_PROFILE/themes/naboo/patternlab
-STYLEGUIDE="public/styleguide/html/styleguide.html"
-if [ -f $STYLEGUIDE ];
-then
-  echo "File $STYLEGUIDE exist, let's update Pattern Lab static site."
-else
-  echo "File $STYLEGUIDE does not exist, let's create it before updating Pattern Lab static site."
-  touch $STYLEGUIDE
-fi
-php core/builder.php -g
-echo "Pattern Lab static site updated"
-
-# Apply environment configuration
-drush d-conf
+# # Apply environment configuration
+# drush d-conf
 
 # Apply hook_update_N()
 drush updb -y
 
 # Revert features just to be sure
 drush fra -y
-
-# Regenerate naboo.styles.css in color folder (sites/default/files/color)
-drush k-fc
 
 # Clear all cache
 drush cc all

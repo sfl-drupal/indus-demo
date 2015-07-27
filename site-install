@@ -10,17 +10,22 @@
 # Stop on error
 set -e
 
-echo ' ___   ___   ___'
-echo '|___| |   | |   |'
-echo ' ___  |   | |___|'
-echo '|   | |   |  ___ '
-echo '|   | |___| |___|'
-echo '|   |  _________ '
-echo '|___| |_________|'
 echo ''
-echo '================='
-echo '  Tatooine       '
-echo '================='
+echo '     _--"-.           '
+echo '  .-"      "-.        '
+echo ' |""--..      "-.     '
+echo ' |      ""--..   "-.  '
+echo ' |.-. .-".    ""--..".'
+echo ' |"./  -_"  .-.      |'
+echo ' |      .-. ".-"   .-"'
+echo ' "--..  "."    .-  -. '
+echo '      ""--..   "_"   :'
+echo '            ""--..   |'
+echo '                  ""-"'
+echo ''
+echo '======================'
+echo '==     Fromages     =='
+echo '======================'
 
 # call default vars
 . `pwd`/default-vars
@@ -88,33 +93,33 @@ else
 fi
 
 # Makefile
-drush make $DRUSH_OPTS build/coruscant.make $DRUPAL_ROOT -y || exit 1
+drush make $DRUSH_OPTS build/$MAKEFILE.make $DRUPAL_ROOT -y || exit 1
 
-# Site installation
+# Site installation,
+# run as the web server user
 cd $DRUPAL_ROOT
-# Run drush as the web server user
 sudo -u $APACHE drush si $SITE_PROFILE $DRUSH_SI_LOCALE --db-url=mysql://$DB_USER:$DB_PASS@localhost/$DB_NAME --site-name="$SITE_NAME" --account-name=$SITE_ADMIN_NAME --account-pass=$SITE_ADMIN_PASS --clean-url=1 -y
 
-# Copy drush aliases
-mkdir $DRUSH_ALIASES
-cd $DRUSH_ALIASES
-ln -s $WORKSPACE/deploy/drushrc.aliases.php .
-echo "Copy drush aliases in "$DRUSH_ALIASES
+# # Copy drush aliases
+# mkdir $DRUSH_ALIASES
+# cd $DRUSH_ALIASES
+# ln -s $WORKSPACE/deploy/drushrc.aliases.php .
+# echo "Copy drush aliases in "$DRUSH_ALIASES
 
-# Set default environment if not passed as parameter
-DRUPAL_ENV=$1
-if [ -z "$1" ]; then
-  DRUPAL_ENV=$SITE_ENVIRONMENT
-fi
+# # Set default environment if not passed as parameter
+# DRUPAL_ENV=$1
+# if [ -z "$1" ]; then
+#   DRUPAL_ENV=$SITE_ENVIRONMENT
+# fi
 
-# Copy environment settings and call it in settings.php
-cp $WORKSPACE/deploy/env/settings.$DRUPAL_ENV.php $DRUPAL_ROOT/sites/default/settings.$DRUPAL_ENV.php
-echo "
-/**
- * Call environment settings file.
- */
-require_once 'settings."$DRUPAL_ENV".php';" >> $DRUPAL_ROOT/sites/default/settings.php
-echo "Copy environment settings file in "$DRUPAL_ROOT"/sites/default/ and call it in settings.php file"
+# # Copy environment settings and call it in settings.php
+# cp $WORKSPACE/deploy/env/settings.$DRUPAL_ENV.php $DRUPAL_ROOT/sites/default/settings.$DRUPAL_ENV.php
+# echo "
+# /**
+#  * Call environment settings file.
+#  */
+# require_once 'settings."$DRUPAL_ENV".php';" >> $DRUPAL_ROOT/sites/default/settings.php
+# echo "Copy environment settings file in "$DRUPAL_ROOT"/sites/default/ and call it in settings.php file"
 
 # Secure files directory
 sudo chmod 770 $DRUPAL_ROOT/sites/default/files
@@ -126,28 +131,14 @@ echo "Secure files directory"
 chmod 644 $DRUPAL_ROOT/sites/default/settings.php
 echo "Secure settings.php file"
 
-# Generate Pattern Lab static site
-cd $DRUPAL_ROOT/profiles/$SITE_PROFILE/themes/naboo/patternlab
-touch public/styleguide/html/styleguide.html
-echo "Pattern Lab styleguide.html file initialized"
-php core/builder.php -g
-echo "Pattern Lab static site generated"
-
-
-# Apply environment configuration
-drush d-conf
+# # Apply environment configuration
+# drush d-conf
 
 # Clear cache
 drush cc all
 
 # Revert features just to be sure
 drush fra -y
-
-# Create kamino entities
-drush k-gen
-
-# Generate naboo.styles.css in color folder (sites/default/files/color)
-drush k-fc
 
 # Clear all cache
 drush cc all
