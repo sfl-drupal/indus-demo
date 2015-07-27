@@ -1,0 +1,156 @@
+#!/bin/sh
+# site-install
+#
+# Script d'installation complète du site
+#
+# Pour installer un nouveau site :
+# - rm -R src/drupal/
+# - ./site-install
+
+# Stop on error
+set -e
+
+echo ' ___   ___   ___'
+echo '|___| |   | |   |'
+echo ' ___  |   | |___|'
+echo '|   | |   |  ___ '
+echo '|   | |___| |___|'
+echo '|   |  _________ '
+echo '|___| |_________|'
+echo ''
+echo '================='
+echo '  Tatooine       '
+echo '================='
+
+# call default vars
+. `pwd`/default-vars
+
+# and override with local vars
+FILE="local-vars"
+if [ -f $FILE ];
+then
+  . $WORKSPACE/$FILE
+else
+  echo "File $FILE does not exist, used default values."
+fi
+
+# Prepare drush make/install commands
+DRUSH_OPTS="--prepare-install"
+DRUSH_SI_LOCALE=""
+
+# Building mode
+echo "\nThis command can be used to build the distribution.\n"
+echo "  [1] Build distribution at $DRUPAL_ROOT (in release mode)"
+echo "  [2] Build distribution at $DRUPAL_ROOT (in development mode)\n"
+echo "Selection: \c"
+read SELECTION
+if [ $SELECTION = "1" ]; then
+  echo "Building Tatooine distribution in release mode..."
+elif [ $SELECTION = "2" ]; then
+  echo "Building Tatooine distribution in development mode..."
+  DRUSH_OPTS="$DRUSH_OPTS --working-copy --no-gitinfofile"
+else
+ echo "Invalid selection."
+ exit 0
+fi
+
+# Cache use (or not)
+echo "\nThis command can be used to use drush cache.\n"
+echo "  [1] Use drush cache to get core, contrib and translations"
+echo "  [2] Force drush to download from Drupal.org servers\n"
+echo "Selection: \c"
+read CACHE_SELECT
+if [ $CACHE_SELECT = "1" ]; then
+  echo "Building Tatooine distribution using drush cache..."
+elif [ $CACHE_SELECT = "2" ]; then
+  echo "Building Tatooine distribution using Drupal.org servers..."
+  DRUSH_OPTS="$DRUSH_OPTS --no-cache"
+else
+ echo "Invalid selection."
+ exit 0
+fi
+
+# French translation (or not)
+echo "\nThis command can be used to download and install french translations.\n"
+echo "  [1] Download and install only english translations"
+echo "  [2] Download and install english AND french translations\n"
+echo "Selection: \c"
+read TRANSLATION_SELECT
+if [ $TRANSLATION_SELECT = "1" ]; then
+  echo "Building Tatooine only in english..."
+elif [ $TRANSLATION_SELECT = "2" ]; then
+  echo "Building Tatooine in english AND french..."
+  DRUSH_OPTS="$DRUSH_OPTS --translations=fr"
+  DRUSH_SI_LOCALE="$DRUSH_SI_LOCALE--locale=fr"
+else
+ echo "Invalid selection."
+ exit 0
+fi
+
+# Makefile
+drush make $DRUSH_OPTS build/coruscant.make $DRUPAL_ROOT -y || exit 1
+
+# Site installation
+cd $DRUPAL_ROOT
+# Run drush as the web server user
+sudo -u $APACHE drush si $SITE_PROFILE $DRUSH_SI_LOCALE --db-url=mysql://$DB_USER:$DB_PASS@localhost/$DB_NAME --site-name="$SITE_NAME" --account-name=$SITE_ADMIN_NAME --account-pass=$SITE_ADMIN_PASS --clean-url=1 -y
+
+# Copy drush aliases
+mkdir $DRUSH_ALIASES
+cd $DRUSH_ALIASES
+ln -s $WORKSPACE/deploy/drushrc.aliases.php .
+echo "Copy drush aliases in "$DRUSH_ALIASES
+
+# Set default environment if not passed as parameter
+DRUPAL_ENV=$1
+if [ -z "$1" ]; then
+  DRUPAL_ENV=$SITE_ENVIRONMENT
+fi
+
+# Copy environment settings and call it in settings.php
+cp $WORKSPACE/deploy/env/settings.$DRUPAL_ENV.php $DRUPAL_ROOT/sites/default/settings.$DRUPAL_ENV.php
+echo "
+/**
+ * Call environment settings file.
+ */
+require_once 'settings."$DRUPAL_ENV".php';" >> $DRUPAL_ROOT/sites/default/settings.php
+echo "Copy environment settings file in "$DRUPAL_ROOT"/sites/default/ and call it in settings.php file"
+
+# Secure files directory
+sudo chmod 770 $DRUPAL_ROOT/sites/default/files
+sudo chmod g+s $DRUPAL_ROOT/sites/default/files
+sudo chgrp $APACHE $DRUPAL_ROOT/sites/default/files
+echo "Secure files directory"
+
+# Secure settings.php file
+chmod 644 $DRUPAL_ROOT/sites/default/settings.php
+echo "Secure settings.php file"
+
+# Generate Pattern Lab static site
+cd $DRUPAL_ROOT/profiles/$SITE_PROFILE/themes/naboo/patternlab
+touch public/styleguide/html/styleguide.html
+echo "Pattern Lab styleguide.html file initialized"
+php core/builder.php -g
+echo "Pattern Lab static site generated"
+
+
+# Apply environment configuration
+drush d-conf
+
+# Clear cache
+drush cc all
+
+# Revert features just to be sure
+drush fra -y
+
+# Create kamino entities
+drush k-gen
+
+# Generate naboo.styles.css in color folder (sites/default/files/color)
+drush k-fc
+
+# Clear all cache
+drush cc all
+
+exit 0;
+

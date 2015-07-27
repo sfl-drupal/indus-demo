@@ -1,0 +1,28 @@
+# Ignore source directory
+src/drupal
+
+# Ignore local-vars file
+local-vars
+
+# Ignore composer install files
+tests/behat/bin/
+tests/behat/composer.lock
+tests/behat/composer.phar
+tests/behat/vendor/
+tests/behat/behat.yml
+
+Ignore profile project
+reblochon
+
+# Ignore .pyc files
+*.pyc
+
+# Ignore ssh keys
+deploy/id_rsa*
+
+# Ignore test logs directory
+logs
+
+# Ignore IDES folders
+nbproject
+.idea
