@@ -8,4 +8,4 @@ defaults[projects][l10n_url] = http://ftp.drupal.org/files/translations/l10n_ser
 projects[reblochon][type] = profile
 projects[reblochon][download][type] = git
 projects[reblochon][download][url] = https://github.com/philippemouchel/reblochon.git
-projects[reblochon][download][branch] = master
+projects[reblochon][download][branch] = 7.x
