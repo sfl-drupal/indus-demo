@@ -45,8 +45,7 @@ echo '======================'
 
 # and override with local vars
 FILE=vars/$SITE_TO_BUILD
-if [ -f $FILE ];
-then
+if [ -f $FILE ]; then
   . $WORKSPACE/$FILE
 else
   echo -e "${YELLOW}File $FILE does not exist, used default values.${NOCOLOR}"

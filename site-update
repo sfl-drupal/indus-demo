@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # site-update
 #
 # Script de mise à jour d'un site
@@ -10,52 +10,65 @@
 # Stop on error
 set -e
 
-echo ' ___   ___   ___'
-echo '|___| |   | |   |'
-echo ' ___  |   | |___|'
-echo '|   | |   |  ___ '
-echo '|   | |___| |___|'
-echo '|   |  _________ '
-echo '|___| |_________|'
+# Define colors
+RED="\e[00;31m"
+YELLOW="\e[01;33m"
+GREEN="\e[00;32m"
+NOCOLOR="\e[00m"
+
+# Get informations to build site
+SITE_TO_BUILD=$1
+if [ -z "$1" ]; then
+  echo -e "${RED}You must pass a site to build as first parameter.${NOCOLOR}"
+  exit 0;
+fi
+
 echo ''
-echo '================='
-echo '  Fromages       '
-echo '================='
+echo '     _--"-.           '
+echo '  .-"      "-.        '
+echo ' |""--..      "-.     '
+echo ' |      ""--..   "-.  '
+echo ' |.-. .-".    ""--..".'
+echo ' |"./  -_"  .-.      |'
+echo ' |      .-. ".-"   .-"'
+echo ' "--..  "."    .-  -. '
+echo '      ""--..   "_"   :'
+echo '            ""--..   |'
+echo '                  ""-"'
+echo ''
+echo '======================'
+echo '==     Fromages     =='
+echo '======================'
 
 # call default vars
-. `pwd`/default-vars
+. `pwd`/vars/default
 
 # and override with local vars
-FILE="local-vars"
-if [ -f $FILE ];
-then
+FILE=vars/$SITE_TO_BUILD
+if [ -f $FILE ]; then
   . $WORKSPACE/$FILE
 else
-  echo "File $FILE does not exist, used default values."
+  echo -e "${YELLOW}File $FILE does not exist, used default values.${NOCOLOR}"
 fi
 
 cd $DRUPAL_ROOT
 
-echo "\nThis command can be used to rebuild the installation profile in place. Be careful as it will wipe out contrib and custom modules.\n"
+echo "This command can be used to rebuild the installation profile in place. Be careful as it will wipe out contrib and custom modules."
 echo "  [1] Rebuild profile in place in release mode (latest stable release)"
 # echo "  [2] Rebuild profile in place in development mode (latest dev code)"
-echo "  [2] Rebuild profile in place in development mode (latest dev code with .git working-copy)\n"
-echo "Selection: \c"
+echo "  [2] Rebuild profile in place in development mode (latest dev code with .git working-copy)"
+echo "Selection:"
 read SELECTION
 
 if [ $SELECTION = "1" ]; then
-
-  echo "Building Tatooine install profile in release mode..."
+  echo -e "${GREEN}Building Tatooine install profile in release mode...${NOCOLOR}"
   drush make --no-gitinfofile $WORKSPACE/build/$MAKEFILE.make .
-
 elif [ $SELECTION = "2" ]; then
-
-  echo "Building Tatooine install profile in development mode (latest dev code with .git working-copy)"
+  echo -e "${GREEN}Building Tatooine install profile in development mode (latest dev code with .git working-copy)...${NOCOLOR}"
   drush make --working-copy --no-gitinfofile $WORKSPACE/build/$MAKEFILE.make .
-
 else
- echo "Invalid selection."
- exit 0
+ echo -e "${RED}Invalid selection.${NOCOLOR}"
+  exit 0
 fi
 
 # # Get site environment
