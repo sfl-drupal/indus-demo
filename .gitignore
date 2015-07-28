@@ -1,9 +1,6 @@
 # Ignore source directory
 src/*
 
-# Ignore local-vars file
-local-vars
-
 # Ignore composer install files
 tests/behat/bin/
 tests/behat/composer.lock

@@ -1,0 +1,34 @@
+#!/bin/bash
+# local-vars
+#
+# This file contains default connexion informations,
+# some informations (like database connexion variables) should be overrided
+# in a local-vars file.
+# Ce fichier contient les infos de connexion par défaut,
+# certaines de ces informations (comme les accès à la BDD) devraient être
+# surchargées dans un fichier local-vars.
+#
+
+################################
+# Informations for MySQL user  #
+# & website database           #
+################################
+DB_USER="fromages"
+DB_PASS="TfxtCU6pyeRH2zqu"
+DB_NAME="fromages"
+
+################################
+# Drupal site name             #
+################################
+SITE_NAME="Les fromages"
+
+################################
+# Drupal administrator account #
+################################
+SITE_ADMIN_NAME="admin"
+SITE_ADMIN_PASS="admin"
+
+################################
+# Drupal install profile       #
+################################
+SITE_PROFILE="reblochon"
