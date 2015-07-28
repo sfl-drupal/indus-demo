@@ -1,0 +1,35 @@
+#!/bin/bash
+# start
+#
+# Script d'affichage du ASCII Cheese
+#
+# Pour installer un nouveau site :
+# - rm -R src/drupal/
+# - ./site-install
+
+# Stop on error
+set -e
+
+# Define colors
+RED="\e[00;31m"
+YELLOW="\e[01;33m"
+GREEN="\e[00;32m"
+NOCOLOR="\e[00m"
+
+# Display ASCII Cheese
+echo ""
+echo -e "${YELLOW}     _--'-.           ${NOCOLOR}"
+echo -e "${YELLOW}  .-'      '-.        ${NOCOLOR}"
+echo -e "${YELLOW} |''--..      '-.     ${NOCOLOR}"
+echo -e "${YELLOW} |      ''--..   '-.  ${NOCOLOR}"
+echo -e "${YELLOW} |.-. .-'.    ''--..'.${NOCOLOR}"
+echo -e "${YELLOW} |'./  -_'  .-.      |${NOCOLOR}"
+echo -e "${YELLOW} |      .-. '.-'   .-'${NOCOLOR}"
+echo -e "${YELLOW} '--..  '.'    .-  -. ${NOCOLOR}"
+echo -e "${YELLOW}      ''--..   '_'   :${NOCOLOR}"
+echo -e "${YELLOW}            ''--..   |${NOCOLOR}"
+echo -e "${YELLOW}                  ''-'${NOCOLOR}"
+echo ""
+echo "======================"
+echo "==     Fromages     =="
+echo "======================"

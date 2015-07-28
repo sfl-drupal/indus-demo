@@ -23,22 +23,23 @@ if [ -z "$1" ]; then
   exit 0;
 fi
 
-echo ''
-echo '     _--"-.           '
-echo '  .-"      "-.        '
-echo ' |""--..      "-.     '
-echo ' |      ""--..   "-.  '
-echo ' |.-. .-".    ""--..".'
-echo ' |"./  -_"  .-.      |'
-echo ' |      .-. ".-"   .-"'
-echo ' "--..  "."    .-  -. '
-echo '      ""--..   "_"   :'
-echo '            ""--..   |'
-echo '                  ""-"'
-echo ''
-echo '======================'
-echo '==     Fromages     =='
-echo '======================'
+# Display ASCII Cheese
+echo ""
+echo -e "${YELLOW}     _--'-.           ${NOCOLOR}"
+echo -e "${YELLOW}  .-'      '-.        ${NOCOLOR}"
+echo -e "${YELLOW} |''--..      '-.     ${NOCOLOR}"
+echo -e "${YELLOW} |      ''--..   '-.  ${NOCOLOR}"
+echo -e "${YELLOW} |.-. .-'.    ''--..'.${NOCOLOR}"
+echo -e "${YELLOW} |'./  -_'  .-.      |${NOCOLOR}"
+echo -e "${YELLOW} |      .-. '.-'   .-'${NOCOLOR}"
+echo -e "${YELLOW} '--..  '.'    .-  -. ${NOCOLOR}"
+echo -e "${YELLOW}      ''--..   '_'   :${NOCOLOR}"
+echo -e "${YELLOW}            ''--..   |${NOCOLOR}"
+echo -e "${YELLOW}                  ''-'${NOCOLOR}"
+echo ""
+echo "======================"
+echo "==     Fromages     =="
+echo "======================"
 
 # call default vars
 . `pwd`/vars/default
