@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # site-install
 #
 # Script d'installation complète du site
@@ -19,7 +19,7 @@ NOCOLOR="\e[00m"
 # Get informations to build site
 SITE_TO_BUILD=$1
 if [ -z "$1" ]; then
-  echo "You must pass a site to build as first parameter."
+  echo -e "${RED}You must pass a site to build as first parameter.${NOCOLOR}"
   exit 0;
 fi
 
@@ -49,7 +49,7 @@ if [ -f $FILE ];
 then
   . $WORKSPACE/$FILE
 else
-  echo "File $FILE does not exist, used default values."
+  echo -e "${YELLOW}File $FILE does not exist, used default values.${NOCOLOR}"
 fi
 
 # Prepare drush make/install commands
@@ -57,52 +57,52 @@ DRUSH_OPTS="--prepare-install"
 DRUSH_SI_LOCALE=""
 
 # Building mode
-echo "\nThis command can be used to build the distribution.\n"
+echo "This command can be used to build the distribution."
 echo "  [1] Build distribution at $DRUPAL_ROOT (in release mode)"
-echo "  [2] Build distribution at $DRUPAL_ROOT (in development mode)\n"
-echo "Selection: \c"
+echo "  [2] Build distribution at $DRUPAL_ROOT (in development mode)"
+echo "Selection:"
 read SELECTION
 if [ $SELECTION = "1" ]; then
-  echo "Building Tatooine distribution in release mode..."
+  echo -e "${GREEN}Building Tatooine distribution in release mode...${NOCOLOR}"
 elif [ $SELECTION = "2" ]; then
-  echo "Building Tatooine distribution in development mode..."
   DRUSH_OPTS="$DRUSH_OPTS --working-copy --no-gitinfofile"
+  echo -e "${GREEN}Building Tatooine distribution in development mode...${NOCOLOR}"
 else
- echo "Invalid selection."
+ echo -e "${RED}Invalid selection.${NOCOLOR}"
  exit 0
 fi
 
 # Cache use (or not)
-echo "\nThis command can be used to use drush cache.\n"
+echo "This command can be used to use drush cache."
 echo "  [1] Use drush cache to get core, contrib and translations"
-echo "  [2] Force drush to download from Drupal.org servers\n"
-echo "Selection: \c"
+echo "  [2] Force drush to download from Drupal.org servers"
+echo "Selection:"
 read CACHE_SELECT
 if [ $CACHE_SELECT = "1" ]; then
-  echo "Building Tatooine distribution using drush cache..."
+  echo -e "${GREEN}Building Tatooine distribution using drush cache...${NOCOLOR}"
 elif [ $CACHE_SELECT = "2" ]; then
-  echo "Building Tatooine distribution using Drupal.org servers..."
   DRUSH_OPTS="$DRUSH_OPTS --no-cache"
+  echo -e "${GREEN}Building Tatooine distribution using Drupal.org servers...${NOCOLOR}"
 else
- echo "Invalid selection."
- exit 0
+  echo -e "${RED}Invalid selection.${NOCOLOR}"
+  exit 0
 fi
 
 # French translation (or not)
-echo "\nThis command can be used to download and install french translations.\n"
+echo "This command can be used to download and install french translations."
 echo "  [1] Download and install only english translations"
-echo "  [2] Download and install english AND french translations\n"
-echo "Selection: \c"
+echo "  [2] Download and install english AND french translations"
+echo "Selection:"
 read TRANSLATION_SELECT
 if [ $TRANSLATION_SELECT = "1" ]; then
-  echo "Building Tatooine only in english..."
+  echo -e "${GREEN}Building Tatooine only in english...${NOCOLOR}"
 elif [ $TRANSLATION_SELECT = "2" ]; then
-  echo "Building Tatooine in english AND french..."
   DRUSH_OPTS="$DRUSH_OPTS --translations=fr"
   DRUSH_SI_LOCALE="$DRUSH_SI_LOCALE --locale=fr"
+  echo -e "${GREEN}Building Tatooine in english AND french...${NOCOLOR}"
 else
- echo "Invalid selection."
- exit 0
+  echo -e "${RED}Invalid selection.${NOCOLOR}"
+  exit 0
 fi
 
 # Makefile
@@ -138,16 +138,21 @@ sudo -u $APACHE drush si $SITE_PROFILE $DRUSH_SI_LOCALE --db-url=mysql://$DB_USE
 sudo chmod 770 $DRUPAL_ROOT/sites/default/files
 sudo chmod g+s $DRUPAL_ROOT/sites/default/files
 sudo chgrp $APACHE $DRUPAL_ROOT/sites/default/files
-echo "Secure files directory"
+echo -e "${GREEN}Secure files directory...${NOCOLOR}"
 
 # Secure settings.php file
 chmod 644 $DRUPAL_ROOT/sites/default/settings.php
-echo "Secure settings.php file"
+echo -e "${GREEN}Secure settings.php file...${NOCOLOR}"
 
 # # Apply environment configuration
 # drush d-conf
 
-# Clear cache
+# Enable custom module
+if [ $CUSTOM_MODULE != "custom_module" ]; then
+  drush en $CUSTOM_MODULE -y
+fi
+
+# Clear all cache
 drush cc all
 
 # Revert features just to be sure

@@ -32,3 +32,13 @@ SITE_ADMIN_PASS="admin"
 # Drupal install profile       #
 ################################
 SITE_PROFILE="reblochon"
+
+################################
+# Makefile name                #
+################################
+MAKEFILE="fromages"
+
+################################
+# Custom module                #
+################################
+CUSTOM_MODULE="epoisses"

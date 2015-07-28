@@ -58,7 +58,12 @@ SITE_PROFILE="standard"
 ################################
 # Makefile name                #
 ################################
-MAKEFILE="fromages"
+MAKEFILE="makefilename"
+
+################################
+# Custom module                #
+################################
+CUSTOM_MODULE="custom_module"
 
 ################################
 # Custom projects location     #
