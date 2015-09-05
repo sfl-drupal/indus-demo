@@ -8,8 +8,8 @@ tests/behat/composer.phar
 tests/behat/vendor/
 tests/behat/behat.yml
 
-Ignore profile project
-reblochon
+# Ignore profile project
+indus_profile
 
 # Ignore .pyc files
 *.pyc

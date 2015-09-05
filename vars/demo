@@ -13,14 +13,14 @@
 # Informations for MySQL user  #
 # & website database           #
 ################################
-DB_USER="fromages"
-DB_PASS="TfxtCU6pyeRH2zqu"
-DB_NAME="fromages"
+DB_USER="indus_demo"
+DB_PASS="WNsqQumayJVZHrLC"
+DB_NAME="indus_demo"
 
 ################################
 # Drupal site name             #
 ################################
-SITE_NAME="Les fromages"
+SITE_NAME="DrupalCamp MTL 12"
 
 ################################
 # Drupal administrator account #
@@ -31,14 +31,15 @@ SITE_ADMIN_PASS="admin"
 ################################
 # Drupal install profile       #
 ################################
-SITE_PROFILE="reblochon"
+SITE_PROFILE="indus_profile"
+PROFILE_REPO="git@github.com:sfl-drupal/indus-profile.git"
 
 ################################
 # Makefile name                #
 ################################
-MAKEFILE="fromages"
+MAKEFILE="demo"
 
 ################################
 # Custom module                #
 ################################
-CUSTOM_MODULE="epoisses"
+CUSTOM_MODULE="indus_core"

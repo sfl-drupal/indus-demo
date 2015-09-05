@@ -63,10 +63,10 @@ echo "  [2] Build distribution at $DRUPAL_ROOT (in development mode)"
 echo "Selection:"
 read SELECTION
 if [ $SELECTION = "1" ]; then
-  echo -e "${GREEN}Building Tatooine distribution in release mode...${NOCOLOR}"
+  echo -e "${GREEN}Building distribution in release mode...${NOCOLOR}"
 elif [ $SELECTION = "2" ]; then
   DRUSH_OPTS="$DRUSH_OPTS --working-copy --no-gitinfofile"
-  echo -e "${GREEN}Building Tatooine distribution in development mode...${NOCOLOR}"
+  echo -e "${GREEN}Building distribution in development mode...${NOCOLOR}"
 else
  echo -e "${RED}Invalid selection.${NOCOLOR}"
  exit 0
@@ -79,10 +79,10 @@ echo "  [2] Force drush to download from Drupal.org servers"
 echo "Selection:"
 read CACHE_SELECT
 if [ $CACHE_SELECT = "1" ]; then
-  echo -e "${GREEN}Building Tatooine distribution using drush cache...${NOCOLOR}"
+  echo -e "${GREEN}Building distribution using drush cache...${NOCOLOR}"
 elif [ $CACHE_SELECT = "2" ]; then
   DRUSH_OPTS="$DRUSH_OPTS --no-cache"
-  echo -e "${GREEN}Building Tatooine distribution using Drupal.org servers...${NOCOLOR}"
+  echo -e "${GREEN}Building distribution using Drupal.org servers...${NOCOLOR}"
 else
   echo -e "${RED}Invalid selection.${NOCOLOR}"
   exit 0
@@ -95,18 +95,20 @@ echo "  [2] Download and install english AND french translations"
 echo "Selection:"
 read TRANSLATION_SELECT
 if [ $TRANSLATION_SELECT = "1" ]; then
-  echo -e "${GREEN}Building Tatooine only in english...${NOCOLOR}"
+  echo -e "${GREEN}Building only in english...${NOCOLOR}"
 elif [ $TRANSLATION_SELECT = "2" ]; then
   DRUSH_OPTS="$DRUSH_OPTS --translations=fr"
   DRUSH_SI_LOCALE="$DRUSH_SI_LOCALE --locale=fr"
-  echo -e "${GREEN}Building Tatooine in english AND french...${NOCOLOR}"
+  echo -e "${GREEN}Building in english AND french...${NOCOLOR}"
 else
   echo -e "${RED}Invalid selection.${NOCOLOR}"
   exit 0
 fi
 
-# Makefile
-drush make $DRUSH_OPTS build/$MAKEFILE.make $DRUPAL_ROOT -y || exit 1
+# Drupal preparation
+rm -rf $SITE_PROFILE
+git clone $PROFILE_REPO $SITE_PROFILE
+drush make $DRUSH_OPTS $SITE_PROFILE/build/$MAKEFILE.make $DRUPAL_ROOT -y || exit 1
 
 # Site installation,
 # run as the web server user
