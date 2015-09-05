@@ -1,2 +1,2 @@
-# Fromages
-Le projet Drupal de base des fromages
+# Indus Demo
+Démonstration de l'industrialisation
