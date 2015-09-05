@@ -56,17 +56,16 @@ cd $DRUPAL_ROOT
 
 echo "This command can be used to rebuild the installation profile in place. Be careful as it will wipe out contrib and custom modules."
 echo "  [1] Rebuild profile in place in release mode (latest stable release)"
-# echo "  [2] Rebuild profile in place in development mode (latest dev code)"
 echo "  [2] Rebuild profile in place in development mode (latest dev code with .git working-copy)"
 echo "Selection:"
 read SELECTION
 
 if [ $SELECTION = "1" ]; then
-  echo -e "${GREEN}Building Tatooine install profile in release mode...${NOCOLOR}"
-  drush make --no-gitinfofile $WORKSPACE/build/$MAKEFILE.make .
+  echo -e "${GREEN}Building install profile in release mode...${NOCOLOR}"
+  drush make --no-gitinfofile $WORKSPACE/$SITE_PROFILE/build/$MAKEFILE.make .
 elif [ $SELECTION = "2" ]; then
-  echo -e "${GREEN}Building Tatooine install profile in development mode (latest dev code with .git working-copy)...${NOCOLOR}"
-  drush make --working-copy --no-gitinfofile $WORKSPACE/build/$MAKEFILE.make .
+  echo -e "${GREEN}Building install profile in development mode (latest dev code with .git working-copy)...${NOCOLOR}"
+  drush make --working-copy --no-gitinfofile $WORKSPACE/$SITE_PROFILE/build/$MAKEFILE.make .
 else
  echo -e "${RED}Invalid selection.${NOCOLOR}"
   exit 0

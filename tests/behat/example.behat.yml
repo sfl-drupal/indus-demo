@@ -1,0 +1,43 @@
+default:
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\DrushContext
+  extensions:
+    Behat\MinkExtension:
+      goutte: ~
+      selenium2: ~
+      base_url: %URL
+    Drupal\DrupalExtension:
+      blackbox: ~
+      api_driver: 'drupal'
+      drush:
+        root: %DRUPAL_ROOT
+      drupal:
+        drupal_root: %DRUPAL_ROOT
+      selectors:
+        message_selector: '.messages'
+        error_message_selector: '.messages--error'
+        warning_message_selector: '.messages--warning'
+        success_message_selector: '.messages--status'
+      region_map:
+        "Header": "header"
+        "Content": "main"
+        "Footer": "footer"
+        "First sidebar": ".l-region--sidebar-first"
+        "Article": ".node--news"
+        "Page": ".node--page"
+        "Link_checker_report": ".overflow-fix"
+        "Main article teaser": "div.article-front.container"
+        "Alerts list": ".view-alertes"
+        "PanelNav": "#navPanel"
+        "Breadcrumb": ".nav-breadcrumb"
+      text:
+        username_field: "Nom d'utilisateur"
+        password_field: "Mot de passe"
+        log_in: "Se connecter"
+        log_out: "Se déconnecter"
