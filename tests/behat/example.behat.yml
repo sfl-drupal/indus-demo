@@ -11,33 +11,24 @@ default:
     Behat\MinkExtension:
       goutte: ~
       selenium2: ~
-      base_url: %URL
+      base_url: http://indus.local/
     Drupal\DrupalExtension:
       blackbox: ~
       api_driver: 'drupal'
       drush:
-        root: %DRUPAL_ROOT
+        root: /var/www/drupal
       drupal:
-        drupal_root: %DRUPAL_ROOT
+        drupal_root: /var/www/drupal
       selectors:
         message_selector: '.messages'
-        error_message_selector: '.messages--error'
-        warning_message_selector: '.messages--warning'
-        success_message_selector: '.messages--status'
+        error_message_selector: '.error'
+        warning_message_selector: '.warning'
+        success_message_selector: '.status'
       region_map:
-        "Header": "header"
-        "Content": "main"
-        "Footer": "footer"
-        "First sidebar": ".l-region--sidebar-first"
-        "Article": ".node--news"
-        "Page": ".node--page"
-        "Link_checker_report": ".overflow-fix"
-        "Main article teaser": "div.article-front.container"
-        "Alerts list": ".view-alertes"
-        "PanelNav": "#navPanel"
-        "Breadcrumb": ".nav-breadcrumb"
+        "Header" : "#header"
+        "Content": "#main"
       text:
-        username_field: "Nom d'utilisateur"
-        password_field: "Mot de passe"
-        log_in: "Se connecter"
-        log_out: "Se déconnecter"
+        username_field: "Username"
+        password_field: "Password"
+        log_in: "Log in"
+        log_out: "Log out"
