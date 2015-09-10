@@ -11,14 +11,14 @@ default:
     Behat\MinkExtension:
       goutte: ~
       selenium2: ~
-      base_url: http://indus.local/
+      base_url: %URL
     Drupal\DrupalExtension:
       blackbox: ~
       api_driver: 'drupal'
       drush:
-        root: /var/www/drupal
+        root: %DRUPAL_ROOT
       drupal:
-        drupal_root: /var/www/drupal
+        drupal_root: %DRUPAL_ROOT
       selectors:
         message_selector: '.messages'
         error_message_selector: '.error'
