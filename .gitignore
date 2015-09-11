@@ -1,5 +1,5 @@
 # Ignore source directory
-src/*
+src/drupal
 
 # Ignore composer install files
 tests/behat/bin/
@@ -18,7 +18,7 @@ indus_profile
 deploy/id_rsa*
 
 # Ignore test logs directory
-logs
+logs/*
 
 # Ignore IDES folders
 nbproject
