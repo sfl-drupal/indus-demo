@@ -8,6 +8,9 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
   extensions:
+    jarnaiz\JUnitFormatter\JUnitFormatterExtension:
+      filename: behat.junit.xml
+      outputDir: %paths.base%/out
     Behat\MinkExtension:
       goutte: ~
       selenium2: ~
@@ -21,14 +24,11 @@ default:
         drupal_root: %DRUPAL_ROOT
       selectors:
         message_selector: '.messages'
-        error_message_selector: '.error'
-        warning_message_selector: '.warning'
-        success_message_selector: '.status'
+        error_message_selector: '.messages.error'
+        warning_message_selector: '.messages.warning'
+        success_message_selector: '.messages.status'
       region_map:
-        "Header" : "#header"
-        "Content": "#main"
+        "Header":  "header.siteHeader"
+        "Content": "main.main"
+        "Footer":  "footer.siteFooter"
       text:
-        username_field: "Username"
-        password_field: "Password"
-        log_in: "Log in"
-        log_out: "Log out"
