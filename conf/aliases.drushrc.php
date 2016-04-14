@@ -7,10 +7,10 @@
  * Drush aliases definition.
  */
 
-$aliases['staging'] = array(
-  'root' => '/var/www/html/drupal',
-  'uri' => 'http://example.com',
-  'remote-host' => 'http://example.com',
+$aliases['dk'] = array(
+  'root' => '/op/sfl/src/drupal',
+  'uri' => 'http://local.indus.sfl',
+  'remote-host' => 'local.indus.sfl',
   'remote-user' => 'webmaster',
   'path-aliases' => array(
     '%files' => 'sites/default/files',
