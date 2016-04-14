@@ -7,7 +7,6 @@ from fabric.api import env
 
 env.project_name = 'sfl_indus'
 env.workspace = path.join(path.dirname(__file__), path.pardir)
-env.interactive_mode = True
 env.locale = False
 
 

@@ -9,7 +9,7 @@ tests/behat/vendor/
 tests/behat/behat.yml
 
 # Ignore profile project
-indus_profile
+build
 
 # Ignore .pyc files
 *.pyc
