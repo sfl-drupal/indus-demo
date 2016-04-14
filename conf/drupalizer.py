@@ -37,7 +37,7 @@ env.db_dump = False
 
 env.docker_workspace = '/opt/sfl'
 env.docker_site_root = '{}/src/drupal'.format(env.docker_workspace)
-env.bind_port = 8001
+env.bind_port = 8066
 env.apache_user = 'www-data'
 
 # Docker auto-added container IP
