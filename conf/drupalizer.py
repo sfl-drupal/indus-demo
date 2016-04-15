@@ -50,16 +50,16 @@ env.hook_post_update= ['drush fra -y', 'drush cc all']
 
 
 env.aliases = {
-    'dev-aegir': {
+    'dev': {
         'aegir': True,
         'host': 'local.aegir.sfl',
         'user': 'aegir',
         'root': '/var/aegir/platforms/',
         'aegir_platform': '{name}-{env}-{build}',
         'aegir_path': '/var/aegir',
-        'aegir_destsrv': 'server_sflringwebstagingringcx',
+        'aegir_destsrv': 'server_master',
     },
-    'dev-webserver': {
+    'dev2': {
         'host': 'local.indus.sfl',
         'user': 'aegir',
         'root': '/var/aegir/drupalizer/drupal/',
