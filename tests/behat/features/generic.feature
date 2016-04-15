@@ -7,7 +7,7 @@ Scenario: The homepage must load properly
   Then I should get a "200" HTTP response
 
 Scenario: Accessing to admin menu toolbar
-  Given I am logged in as a user with the "administrator" role
+  Given I am logged in as a user with the "administrateur" role
   When I am on the homepage
   Then I should see an "div#admin-menu-wrapper" element
 
@@ -16,8 +16,8 @@ Scenario: The cache can be cleared
   When I am on the homepage
   Then I should get a "200" HTTP response
 
-Scenario: An administrator can administer the modules
-  Given I am logged in as a user with the "administrator" role
+Scenario: An administrateur can administer the modules
+  Given I am logged in as a user with the "administrateur" role
   When I am on "/admin/modules"
   Then I should get a "200" HTTP response
 
@@ -26,24 +26,24 @@ Scenario: An anonymous user can not access to admin pages
   When I am on "/admin"
   Then I should get a "403" HTTP response
 
-Scenario: An administrator can create users
+Scenario: An administrateur can create users
   Given users:
   | name     | mail            | status |
   | Joe User | joe@example.com | 1      |
-  And I am logged in as a user with the "administrator" role
+  And I am logged in as a user with the "administrateur" role
   When I visit "admin/people"
   Then I should see the link "Joe User"
 
-Scenario: An administrator can create users with roles
+Scenario: An administrateur can create users with roles
   Given users:
   | name     | mail            | roles         |
-  | Joe User | joe@example.com | administrator |
-  And I am logged in as a user with the "administrator" role
+  | Joe User | joe@example.com | administrateur |
+  And I am logged in as a user with the "administrateur" role
   When I visit "admin/people"
-  Then I should see the text "administrator" in the "Joe User" row
+  Then I should see the text "administrateur" in the "Joe User" row
 
 Scenario: Run cron
-  Given I am logged in as a user with the "administrator" role
+  Given I am logged in as a user with the "administrateur" role
   When I run cron
   And am on "admin/reports/status"
   Then I should see the link "run cron manually"
