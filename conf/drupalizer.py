@@ -62,6 +62,6 @@ env.aliases = {
     'dev2': {
         'host': 'local.indus.sfl',
         'user': 'aegir',
-        'root': '/var/aegir/drupalizer/drupal/',
+        'root': '/opt/sfl/src/drupal/',
     },
 }
