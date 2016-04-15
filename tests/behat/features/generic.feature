@@ -40,7 +40,7 @@ Scenario: An administrateur can create users with roles
   | Joe User | joe@example.com | administrateur |
   And I am logged in as a user with the "administrateur" role
   When I visit "admin/people"
-  Then I should see the text "administrateur" in the "Joe User" row
+  Then I should see the text "Administrateur" in the "Joe User" row
 
 Scenario: Run cron
   Given I am logged in as a user with the "administrateur" role
